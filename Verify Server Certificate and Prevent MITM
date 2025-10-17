@@ -1,0 +1,21 @@
+Function verifyServerCertificate(secureConnection):
+    serverCertificate = secureConnection.getCertificate()
+
+    # Validate against trusted CAs
+    If not serverCertificate.isSignedBy(trustedCAs):
+        Raise Error("Untrusted certificate – potential MITM attack")
+
+    # Hostname verification
+    If serverCertificate.hostname != secureConnection.serverAddress:
+        Raise Error("Hostname mismatch – potential MITM attack")
+
+    # Certificate expiration check
+    If serverCertificate.isExpired():
+        Raise Error("Expired certificate – potential MITM attack")
+
+    # Optional certificate pinning verification
+    If serverCertificate not in pinnedCertificates:
+        Raise Warning("Certificate mismatch with pinned list – potential MITM")
+
+    logEvent("Server certificate verified successfully")
+    Return True
