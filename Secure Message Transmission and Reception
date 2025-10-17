@@ -1,0 +1,18 @@
+Function sendSecureMessage(secureConnection, message):
+    Try:
+        encryptedMessage = secureConnection.encrypt(message)
+        secureConnection.send(encryptedMessage)
+        logEvent("Message sent securely")
+    Except EncryptionError as e:
+        logEvent("Encryption failed: " + e.message)
+        Raise Error("Message could not be sent securely")
+
+Function receiveSecureMessage(secureConnection):
+    Try:
+        encryptedMessage = secureConnection.receive()
+        message = secureConnection.decrypt(encryptedMessage)
+        logEvent("Message received securely")
+        Return message
+    Except DecryptionError as e:
+        logEvent("Decryption failed: " + e.message)
+        Raise Error("Message could not be received securely")
