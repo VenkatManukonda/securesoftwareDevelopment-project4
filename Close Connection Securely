@@ -1,0 +1,4 @@
+Function closeConnection(secureConnection):
+    secureConnection.terminateTLS()
+    secureConnection.close()
+    logEvent("TLS session terminated")
