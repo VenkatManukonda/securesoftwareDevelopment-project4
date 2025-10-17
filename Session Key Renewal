@@ -1,0 +1,8 @@
+Function renewSessionKey(secureConnection):
+    Try:
+        newKey = secureConnection.performKeyExchange()
+        secureConnection.updateSessionKey(newKey)
+        logEvent("Session key renewed successfully")
+    Except KeyExchangeError as e:
+        logEvent("Key exchange failed: " + e.message)
+        Raise Error("Session key renewal failed")
